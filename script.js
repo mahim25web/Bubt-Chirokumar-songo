@@ -12,11 +12,64 @@ ld('cks-extra').forEach(x=>members.push({id:members.length,role:'Member · '+x.d
 members.forEach(m=>{if(st[m.id])Object.assign(m,st[m.id])});
 const save=()=>{try{localStorage.setItem('cks-fees',JSON.stringify(Object.fromEntries(members.map(m=>[m.id,{paid:m.paid,pen:m.pen,date:m.date}]))))}catch(e){}};
 const photos={};
-const card=(m,lead)=>`<div class="card${lead?' lead':''}"><span class="ico">${svg(m.icon)}</span><div class="av" data-id="${m.id}" role="button" tabindex="0" aria-label="Add photo for ${m.name}">${photos[m.id]?`<img src="${photos[m.id]}" alt="">`:ini(m.name)}</div><h3 class="${m.name==='[TBD]'?'tbd':''}">${m.name==='[TBD]'?'To be announced':m.name}</h3><div class="role">${m.role}</div></div>`;
+const photoStatus=document.getElementById('photoStatus');
+const PHOTO_DB='cks-member-photos';
+const PHOTO_STORE='photos';
+const photoDb=new Promise((resolve,reject)=>{
+  const request=indexedDB.open(PHOTO_DB,1);
+  request.onupgradeneeded=()=>request.result.createObjectStore(PHOTO_STORE,{keyPath:'id'});
+  request.onsuccess=()=>resolve(request.result);
+  request.onerror=()=>reject(request.error||new Error('Could not open the photo database.'));
+});
+const card=(m,lead)=>`<div class="card${lead?' lead':''}"><span class="ico">${svg(m.icon)}</span><div class="av" data-id="${m.id}" role="button" tabindex="0" aria-label="${photos[m.id]?'Change':'Add'} photo for ${m.name}">${photos[m.id]?`<img src="${photos[m.id]}" alt="">`:ini(m.name)}</div><h3 class="${m.name==='[TBD]'?'tbd':''}">${m.name==='[TBD]'?'To be announced':m.name}</h3><div class="role">${m.role}</div></div>`;
 function drawCards(){document.getElementById('lead').innerHTML=members.slice(0,10).map(m=>card(m,1)).join('');document.getElementById('spec').innerHTML=members.slice(10,BASE).map(m=>card(m)).join('')}
+async function loadPhotos(){
+  try{
+    const db=await photoDb;
+    const records=await new Promise((resolve,reject)=>{
+      const request=db.transaction(PHOTO_STORE,'readonly').objectStore(PHOTO_STORE).getAll();
+      request.onsuccess=()=>resolve(request.result);
+      request.onerror=()=>reject(request.error||new Error('Could not load saved photos.'));
+    });
+    records.forEach(({id,blob})=>{photos[id]=URL.createObjectURL(blob)});
+    drawCards();
+  }catch(error){
+    photoStatus.textContent=`Could not load saved photos: ${error.message}`;
+    photoStatus.classList.add('photo-error');
+    console.error('Could not load saved member photos.',error);
+  }
+}
+function savePhoto(db,id,blob){
+  return new Promise((resolve,reject)=>{
+    const transaction=db.transaction(PHOTO_STORE,'readwrite');
+    transaction.objectStore(PHOTO_STORE).put({id,blob});
+    transaction.oncomplete=resolve;
+    transaction.onerror=()=>reject(transaction.error||new Error('Could not save the photo.'));
+    transaction.onabort=()=>reject(transaction.error||new Error('Photo saving was cancelled.'));
+  });
+}
 const pick=document.createElement('input');pick.type='file';pick.accept='image/*';let cur=null;
-pick.onchange=()=>{const f=pick.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{photos[cur]=r.result;drawCards()};r.readAsDataURL(f);pick.value=''};
-document.addEventListener('click',e=>{const a=e.target.closest('.av');if(a){cur=a.dataset.id;pick.click()}});
+pick.onchange=async()=>{
+  const file=pick.files[0];
+  if(!file)return;
+  try{
+    if(!file.type.startsWith('image/'))throw new Error('Choose an image file.');
+    const db=await photoDb;
+    await savePhoto(db,cur,file);
+    if(photos[cur])URL.revokeObjectURL(photos[cur]);
+    photos[cur]=URL.createObjectURL(file);
+    drawCards();
+    photoStatus.textContent='Photo saved in this browser.';
+    photoStatus.classList.remove('photo-error');
+  }catch(error){
+    photoStatus.textContent=`Could not save photo: ${error.message}`;
+    photoStatus.classList.add('photo-error');
+    console.error('Could not save member photo.',error);
+  }finally{
+    pick.value='';
+  }
+};
+document.addEventListener('click',e=>{const a=e.target.closest('.av');if(a){cur=a.dataset.id;pick.value='';pick.click()}});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList.contains('av'))e.target.click()});
 
 let filter='all',admin=false;
@@ -42,4 +95,4 @@ $('fJoin').onsubmit=e=>{e.preventDefault();pending.push(Object.fromEntries(new F
 $('bJoin').onclick=()=>{$('jmsg').textContent='';$('dJoin').showModal()};
 $('bRules').onclick=()=>$('dRules').showModal();
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>b.closest('dialog').close());
-drawCards();drawRows();
+drawCards();loadPhotos();drawRows();

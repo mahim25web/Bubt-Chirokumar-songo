@@ -16,6 +16,7 @@ nav a:hover,nav a:focus-visible{outline:2px solid var(--hi)}
 section{padding:30px 0}
 h2{font-size:28px;margin-bottom:4px}
 .sub{color:var(--mut);margin:0 0 16px}
+.photo-error{color:var(--gold)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:26px}
 .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px 12px;text-align:center;position:relative}
 .card.lead{border-color:var(--hi)}
