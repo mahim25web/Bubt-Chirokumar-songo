@@ -1,0 +1,68 @@
+:root{--bg:#0b132b;--panel:#1c2541;--hi:#4cc9f0;--gold:#ffd166;--ok:#4ade80;--tx:#e8eefc;--mut:#8fa0c8;--line:#2c3a66;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 Nunito,'Hind Siliguri',system-ui,sans-serif}
+h1,h2,h3,.disp{font-family:'Baloo 2',Nunito,sans-serif;margin:0}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+.hero{text-align:center;padding:40px 0 28px;background:radial-gradient(ellipse at top,#1c2d5e 0,transparent 70%)}
+.logo{width:96px;height:96px;border-radius:50%;margin:0 auto 14px;display:grid;place-items:center;background:var(--panel);border:3px solid var(--hi);box-shadow:0 0 0 6px rgba(76,201,240,.15);font:800 26px 'Baloo 2';color:var(--hi)}
+.hero h1{font-size:clamp(30px,8vw,52px);font-weight:800;line-height:1.1}
+.slogan{font:700 clamp(17px,4.4vw,24px)/1.3 'Baloo 2';color:var(--hi);margin:10px 0 16px}
+.badge{display:inline-flex;gap:8px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:99px;padding:7px 14px;font-size:14px;color:var(--tx)}
+.badge svg{flex:none;color:var(--gold)}
+nav{display:flex;gap:8px;justify-content:center;margin:20px 0 0}
+nav a{color:var(--tx);text-decoration:none;font-weight:700;padding:8px 16px;border-radius:99px;background:var(--panel)}
+nav a:hover,nav a:focus-visible{outline:2px solid var(--hi)}
+section{padding:30px 0}
+h2{font-size:28px;margin-bottom:4px}
+.sub{color:var(--mut);margin:0 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:26px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px 12px;text-align:center;position:relative}
+.card.lead{border-color:var(--hi)}
+.av{width:78px;height:78px;border-radius:50%;margin:0 auto 10px;background:linear-gradient(135deg,#27407f,#0b132b);border:2px solid var(--hi);display:grid;place-items:center;font:800 24px 'Baloo 2';color:var(--hi);overflow:hidden;cursor:pointer}
+.av img{width:100%;height:100%;object-fit:cover}
+.ico{position:absolute;top:10px;right:10px;color:var(--gold)}
+.card h3{font-size:16px;line-height:1.25}
+.role{font-size:13px;color:var(--mut);margin-top:4px}
+.tbd{color:var(--gold)}
+.ctrl{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+.chip{border:1px solid var(--line);background:var(--panel);color:var(--tx);border-radius:99px;padding:8px 14px;font:700 14px Nunito;cursor:pointer}
+.chip[aria-pressed=true]{background:var(--hi);color:var(--bg);border-color:var(--hi)}
+.chip:focus-visible,input:focus-visible,.sw:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.admin{margin-left:auto;display:flex;gap:8px;align-items:center;font-weight:700}
+.sw{width:46px;height:26px;border-radius:99px;border:0;background:var(--line);position:relative;cursor:pointer}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .15s}
+.sw[aria-checked=true]{background:var(--ok)}
+.sw[aria-checked=true]::after{transform:translateX(20px)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.stat{background:var(--panel);border-radius:14px;padding:10px 16px;border:1px solid var(--line)}
+.stat b{font:800 22px 'Baloo 2';display:block;line-height:1.1}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:16px}
+table{width:100%;border-collapse:collapse;min-width:680px}
+th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--line);font-size:14px}
+th{background:var(--panel);color:var(--mut);font-weight:700}
+tr:last-child td{border-bottom:0}
+.paid{color:var(--ok);font-weight:700;display:inline-flex;gap:6px;align-items:center}
+.unpaid{color:var(--mut);font-weight:700}
+.pen{color:var(--gold);font-weight:700}
+td input{width:76px;background:var(--bg);color:var(--tx);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font:inherit}
+.tick{width:26px;height:26px;border-radius:50%;display:inline-grid;place-items:center;border:2px solid var(--line);color:transparent}
+.tick.on{background:var(--ok);border-color:var(--ok);color:#06210f}
+.empty{padding:22px;text-align:center;color:var(--mut)}
+footer{text-align:center;color:var(--mut);font-size:13px;padding:26px 0 40px}
+@media(max-width:520px){.admin{margin-left:0;width:100%}}
+nav button{color:var(--tx);font:700 16px Nunito;padding:8px 16px;border-radius:99px;background:var(--panel);border:0;cursor:pointer}
+nav button:hover,nav button:focus-visible{outline:2px solid var(--hi)}
+dialog{background:var(--panel);color:var(--tx);border:1px solid var(--hi);border-radius:18px;padding:20px;width:min(92vw,520px);max-height:86vh}
+dialog::backdrop{background:rgba(0,0,0,.65)}
+dialog h2{font-size:24px;margin-bottom:12px}
+dialog label{display:block;font-weight:700;font-size:14px;margin-bottom:10px}
+dialog input:not([type=checkbox]){display:block;width:100%;margin-top:4px;background:var(--bg);color:var(--tx);border:1px solid var(--line);border-radius:10px;padding:10px;font:inherit}
+.row2{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap}
+.go{background:var(--hi);color:var(--bg);border:0;border-radius:99px;padding:10px 18px;font:800 15px Nunito;cursor:pointer}
+.err{color:var(--gold);min-height:1.4em;margin:6px 0 0;font-size:14px}
+.rules h3{color:var(--hi);font-size:18px;margin:14px 0 4px}
+.rules p,.rules li{font-size:15px;line-height:1.7;margin:3px 0}
+.rules ul{padding-left:20px;margin:4px 0}
+#pend{background:var(--panel);border:1px solid var(--gold);border-radius:16px;padding:14px;margin-bottom:14px}
+.req{display:flex;gap:10px;justify-content:space-between;align-items:center;flex-wrap:wrap;padding:10px 0;border-top:1px solid var(--line)}

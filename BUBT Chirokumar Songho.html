@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>BUBT Chirokumar Songho</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Hind+Siliguri:wght@400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="BUBT%20Chirokumar%20Songho.css">
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <div class="logo" aria-hidden="true">CKS</div>
+  <h1>BUBT Chirokumar Songho</h1>
+  <p class="slogan">Biye Nai, Tension Nai, Chirokumar Sodai Bhai Bhai</p>
+  <span class="badge"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>B6/ 404, BUBT International Campus, Dhaka-1206</span>
+  <nav><a href="#committee">Committee</a><a href="#fees">Fees &amp; fines</a><button id="bRules">Nitimala</button><button id="bJoin">Join us</button></nav>
+</div></header>
+
+<main class="wrap">
+<section id="committee">
+  <h2>Central committee</h2>
+  <p class="sub">Tap an avatar to add a photo.</p>
+  <h3 class="disp" style="margin-bottom:10px;color:var(--hi)">Leadership</h3>
+  <div class="grid" id="lead"></div>
+  <h3 class="disp" style="margin-bottom:10px;color:var(--hi)">Specialized roles</h3>
+  <div class="grid" id="spec"></div>
+</section>
+
+<section id="fees">
+  <h2>Monthly fee &amp; fine tracker</h2>
+  <p class="sub">Log in as admin to approve join requests, mark payments and set Jorimana. Changes save in this browser only.</p>
+  <div id="pend" hidden></div><div class="stats"><div class="stat"><b id="sPaid">0</b>Paid</div><div class="stat"><b id="sUnpaid">0</b>Unpaid</div><div class="stat"><b id="sPen" style="color:var(--gold)">৳0</b>Total penalties</div></div>
+  <div class="ctrl">
+    <button class="chip" data-f="all" aria-pressed="true">All</button>
+    <button class="chip" data-f="paid" aria-pressed="false">Paid only</button>
+    <button class="chip" data-f="unpaid" aria-pressed="false">Unpaid only</button>
+    <button class="chip" data-f="pen" aria-pressed="false">Penalized members</button>
+    <div class="admin"><button class="chip" id="adm">Admin login</button></div>
+  </div>
+  <div class="tw"><table>
+    <thead><tr><th>Member</th><th>Designation</th><th>Status</th><th>Paid</th><th>Jorimana</th><th>Last payment</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+</section>
+</main>
+<footer>BUBT Chirokumar Songho · Dhaka-1206</footer>
+
+<dialog id="dLogin"><h2>Admin login</h2><form id="fLogin"><label>Username<input id="u" autocomplete="username" required></label><label>Password<input id="pw" type="password" autocomplete="current-password" required></label><p class="err" id="lerr" role="alert"></p><div class="row2"><button class="go">Log in</button><button type="button" class="chip" data-close>Cancel</button></div></form></dialog>
+<dialog id="dJoin"><h2>Join the Songho</h2><form id="fJoin"><label>Name<input name="name" required></label><label>Intake<input name="intake" required></label><label>Section<input name="section" required></label><label>Department<input name="dept" required></label><label>Phone number<input name="phone" type="tel" pattern="01[3-9][0-9]{8}" title="11-digit number, e.g. 01712345678" required></label><p class="err" id="jmsg" role="status"></p><div class="row2"><button class="go">Send request</button><button type="button" class="chip" data-close>Close</button></div></form></dialog>
+<dialog id="dRules" class="rules"><h2>নীতিমালা ও গঠনতন্ত্র</h2>
+<h3>১. মূল প্রস্তাবনা ও আদর্শ</h3><ul><li>মূলমন্ত্র: "সিঙ্গেল জীবন, শান্তির জীবন। প্রেমে নাই সুখ, পড়াশোনা আর কোডিংয়েই বুক!"</li><li>লক্ষ্য: সিজিপিএ রক্ষা করা, পকেটের টাকা বাঁচানো, এবং রিলেশনশিপের প্যারা থেকে নিজেকে শতভাগ দূরে রাখা।</li></ul>
+<h3>২. সদস্যপদের যোগ্যতা</h3><ul><li>আবেদনকারীকে BUBT-এর বর্তমান শিক্ষার্থী হতে হবে।</li><li>সম্পূর্ণ সিঙ্গেল হতে হবে। "মেবি-মেবি", "জাস্ট ফ্রেন্ড উইথ বেনিফিটস" বা "ক্রাশের পেছনে ব্যাকুল" অবস্থা গ্রহণযোগ্য নয়।</li><li>ক্যাফেটেরিয়া বা গার্ডেনে কাপলকে বেঞ্চ দখল করে থাকতে দেখলে হিংসা বা আফসোস করা যাবে না; গম্ভীর মুখে পাশ কেটে যেতে হবে।</li></ul>
+<h3>৩. সাধারণ আচরণবিধি</h3><p><b>ক্যাফেটেরিয়া:</b></p><ul><li>১ কাপ চা ও সিঙাড়া ভাগাভাগি করে খাওয়া কঠোরভাবে নিষিদ্ধ। প্রতিজন নিজের চা নিজে খাবে।</li><li>কাপলদের টেবিলের পাশে দাঁড়িয়ে জায়গার জন্য দীর্ঘশ্বাস ফেলা যাবে না।</li></ul><p><b>ক্যাম্পাস ও গার্ডেন:</b></p><ul><li>ভবনের পেছনে বা গার্ডেনের কোণায় অযথা একা হাঁটা যাবে না (প্রেমে পড়ার ঝুঁকি বাড়ে)।</li><li>ভ্যালেন্টাইনস ডে বা বিশেষ দিবসে আড্ডার বদলে লাইব্রেরি বা কম্পিউটার ল্যাবে অ্যাসাইনমেন্ট/কোডিংয়ে ব্যস্ত থাকতে হবে।</li></ul><p><b>সোশ্যাল মিডিয়া ও চ্যাটিং:</b></p><ul><li>রাত ১২টার পর "লেট নাইট চ্যাট" সম্পূর্ণ নিষিদ্ধ। এ সময় পড়ালেখা, গেম বা ঘুম বাধ্যতামূলক।</li><li>মেসেঞ্জারে কারো ইনবক্সে অহেতুক "হায়/হ্যালো/খাইছ?" পাঠানো যাবে না।</li></ul>
+<h3>৪. সদস্যপদ বাতিলের শর্তাবলি</h3><ul><li>প্রেমে জড়ানো: গোপনে বা প্রকাশ্যে রিলেশনশিপে জড়ালে সদস্যপদ তৎক্ষণাৎ বাতিল এবং সংঘকে "জরুরি চা-নাস্তা পার্টি" দিতে হবে।</li><li>ক্রাশের পেছনে অতিরিক্ত ঘুরঘুর: নোটের বাহানায় প্রক্সি দিলে বা দিনরাত হেল্প করলে প্রাথমিক সতর্কবার্তা (Warning) দেওয়া হবে।</li><li>কাপলদের প্রতি সহানুভূতি: "ইস! আমারও যদি কেউ থাকত" টাইপ ডায়লগ মারলে ৫০ টাকা জরিমানা।</li></ul>
+<h3>৫. বিশেষ সুবিধা</h3><ul><li>ক্যাফেটেরিয়ায় বিল ভাগাভাগি (Dutch) করার মানসিক শান্তি।</li><li>পরীক্ষার আগে মানসিক প্যারা ছাড়া নিরবিচ্ছিন্ন স্টাডি টাইম।</li><li>পকেটের টাকায় বন্ধুদের সাথে ঝালমুড়ি আর চা খাওয়ার অফুরন্ত স্বাধীনতা।</li></ul>
+<div class="row2"><button type="button" class="chip" data-close>Close</button></div></dialog>
+<script src="BUBT%20Chirokumar%20Songho.js"></script>
+</body>
+</html>
