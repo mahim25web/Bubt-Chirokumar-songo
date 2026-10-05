@@ -3,7 +3,23 @@ const S=[["Apyayon Sompadok","Khatune Jannat Fatima","heart"],["Upo Apyayon Somp
 const P={crown:'<path d="M3 18h18l-1.5-10-4.5 4-3-6-3 6-4.5-4z"/>',star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',pen:'<path d="M12 20h9"/><path d="M16.5 3.5l4 4L8 20l-5 1 1-5z"/>',users:'<circle cx="9" cy="8" r="3.5"/><path d="M2 21c0-4 3-6 7-6s7 2 7 6"/><path d="M17 7a3.5 3.5 0 1 1 0 7"/><path d="M22 21c0-3.5-2.3-5.2-5.5-5.8"/>',file:'<path d="M14 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h6"/>',mega:'<path d="M5 12h4l2-5 2 5h6"/><path d="M4 16h16"/><path d="M8 15l-2 4M16 15l2 4"/>',heart:'<path d="M12 21s-8.5-5-8.5-11A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 9 3c0 6-8.5 11-8.5 11z"/>',cap:'<path d="M3 11h18l-2 9H5z"/><path d="M6 11V8a6 6 0 0 1 12 0v3"/>',coin:'<circle cx="12" cy="12" r="8"/><path d="M12 7v10M7 12h10"/>',scale:'<path d="M3 18h18"/><path d="M7 18V8l5-5 5 5v10"/><path d="M12 13v5"/><path d="M9 13h6"/>'};
 const svg=(k,s=18)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${P[k]}</svg>`;
 const ini=n=>n.replace(/[\[\]]/g,'').replace(/^(Mo:|Mu\.)\s*/,'').split(' ').map(w=>w[0]).slice(0,2).join('');
-const members=[...L,...S].map(([r,n,i],x)=>({id:x,role:r,name:n,icon:i,paid:false,pen:0,date:''}));
+const memberImages={
+  'Mo: Arefin Ahmmed Arnob':'arnob.jpg',
+  'MD. Mahim Ahmed':'main.jpeg',
+  'Jabid Hasan':'jabid.jpg',
+  'Tithi Debnath':'tithi.jpg',
+  'Kazi Tahsin Miti':'miti.jpg',
+  'Songjukta Singho Joti':'joti.jpg',
+  'Sha Poran Hasan Shuvo':'shuvo.jpg',
+  'Tahsin Afsar Adib':'adib.jpg',
+  'Rubayet Islam Mahi':'mahi.jpg',
+  'Ashpaun Alvi':'alvi.jpg',
+  'Mushfiq Alam Tasin':'tasin.jpg',
+  'Md.Aswad Karim Ifrad':'ifrad.jpg',
+  'Oindrila Haldar Oishi':'oishi.jpg',
+  'Juariar Rahman Rafi':'rafi.jpg'
+};
+const members=[...L,...S].map(([r,n,i],x)=>({id:x,role:r,name:n,icon:i,paid:false,pen:0,date:'',image:memberImages[n]?`assects/${memberImages[n]}`:''}));
 let st={};try{st=JSON.parse(localStorage.getItem('cks-fees')||'{}')}catch(e){}
 const BASE=members.length;
 const ld=k=>{try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return[]}};
@@ -21,7 +37,7 @@ const photoDb=new Promise((resolve,reject)=>{
   request.onsuccess=()=>resolve(request.result);
   request.onerror=()=>reject(request.error||new Error('Could not open the photo database.'));
 });
-const card=(m,lead)=>`<div class="card${lead?' lead':''}"><span class="ico">${svg(m.icon)}</span><div class="av" data-id="${m.id}" role="button" tabindex="0" aria-label="${photos[m.id]?'Change':'Add'} photo for ${m.name}">${photos[m.id]?`<img src="${photos[m.id]}" alt="">`:ini(m.name)}</div><h3 class="${m.name==='[TBD]'?'tbd':''}">${m.name==='[TBD]'?'To be announced':m.name}</h3><div class="role">${m.role}</div></div>`;
+const card=(m,lead)=>{const image=photos[m.id]||m.image;return `<div class="card${lead?' lead':''}"><span class="ico">${svg(m.icon)}</span><div class="av" data-id="${m.id}" role="button" tabindex="0" aria-label="${image?'Change':'Add'} photo for ${m.name}">${image?`<img src="${image}" alt="">`:ini(m.name)}</div><h3 class="${m.name==='[TBD]'?'tbd':''}">${m.name==='[TBD]'?'To be announced':m.name}</h3><div class="role">${m.role}</div></div>`};
 function drawCards(){document.getElementById('lead').innerHTML=members.slice(0,10).map(m=>card(m,1)).join('');document.getElementById('spec').innerHTML=members.slice(10,BASE).map(m=>card(m)).join('')}
 async function loadPhotos(){
   try{

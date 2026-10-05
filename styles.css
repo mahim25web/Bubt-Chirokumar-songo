@@ -17,10 +17,10 @@ section{padding:30px 0}
 h2{font-size:28px;margin-bottom:4px}
 .sub{color:var(--mut);margin:0 0 16px}
 .photo-error{color:var(--gold)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;margin-bottom:26px}
-.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px 12px;text-align:center;position:relative}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:18px;margin-bottom:26px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:18px 14px;text-align:center;position:relative}
 .card.lead{border-color:var(--hi)}
-.av{width:78px;height:78px;border-radius:50%;margin:0 auto 10px;background:linear-gradient(135deg,#27407f,#0b132b);border:2px solid var(--hi);display:grid;place-items:center;font:800 24px 'Baloo 2';color:var(--hi);overflow:hidden;cursor:pointer}
+.av{width:150px;height:150px;border-radius:50%;margin:0 auto 12px;background:linear-gradient(135deg,#27407f,#0b132b);border:3px solid var(--hi);display:grid;place-items:center;font:800 32px 'Baloo 2';color:var(--hi);overflow:hidden;cursor:pointer}
 .av img{width:100%;height:100%;object-fit:cover}
 .ico{position:absolute;top:10px;right:10px;color:var(--gold)}
 .card h3{font-size:16px;line-height:1.25}
@@ -51,7 +51,7 @@ td input{width:76px;background:var(--bg);color:var(--tx);border:1px solid var(--
 .tick.on{background:var(--ok);border-color:var(--ok);color:#06210f}
 .empty{padding:22px;text-align:center;color:var(--mut)}
 footer{text-align:center;color:var(--mut);font-size:13px;padding:26px 0 40px}
-@media(max-width:520px){.admin{margin-left:0;width:100%}}
+@media(max-width:520px){.admin{margin-left:0;width:100%}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{padding:14px 8px}.av{width:min(34vw,140px);height:min(34vw,140px)}}
 nav button{color:var(--tx);font:700 16px Nunito;padding:8px 16px;border-radius:99px;background:var(--panel);border:0;cursor:pointer}
 nav button:hover,nav button:focus-visible{outline:2px solid var(--hi)}
 dialog{background:var(--panel);color:var(--tx);border:1px solid var(--hi);border-radius:18px;padding:20px;width:min(92vw,520px);max-height:86vh}
