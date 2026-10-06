@@ -27,14 +27,39 @@ const memberImages={
   'Oindrila Haldar Oishi':'oishi.jpg',
   'Juariar Rahman Rafi':'rafi.jpg'
 };
-const members=[...L,...S].map(([r,n,i],x)=>({id:x,role:r,name:n,icon:i,paid:false,pen:0,date:'',image:memberImages[n]?`assects/${memberImages[n]}`:''}));
+const TWO_WEEKS_MS=14*24*60*60*1000;
+const members=[...L,...S].map(([r,n,i],x)=>({id:x,role:r,name:n,icon:i,paid:false,pen:0,date:'',paidUntil:'',image:memberImages[n]?`assects/${memberImages[n]}`:''}));
 let st={};try{st=JSON.parse(localStorage.getItem('cks-fees')||'{}')}catch(e){}
 const BASE=members.length;
 const ld=k=>{try{return JSON.parse(localStorage.getItem(k)||'[]')}catch(e){return[]}};
 let pending=ld('cks-pending');
-ld('cks-extra').forEach(x=>members.push({id:members.length,role:'Member · '+x.dept,name:x.name,icon:'users',paid:false,pen:0,date:'',x}));
-members.forEach(m=>{if(st[m.id])Object.assign(m,st[m.id])});
-const save=()=>{try{localStorage.setItem('cks-fees',JSON.stringify(Object.fromEntries(members.map(m=>[m.id,{paid:m.paid,pen:m.pen,date:m.date}]))))}catch(e){}};
+ld('cks-extra').forEach(x=>members.push({id:members.length,role:'Member · '+x.dept,name:x.name,icon:'users',paid:false,pen:0,date:'',paidUntil:'',x}));
+const upAdd=(m,v)=>{if(v&&typeof v==='object'){Object.assign(m,v);if(!('paidUntil' in m))m.paidUntil='';}};
+const paymentTime=(m)=>{const iso=m.paidUntil; if(!iso) return null; const t=Date.parse(iso); return Number.isNaN(t)?null:t;};
+function normalizePaymentState(m){
+  if(!m)return;
+  const paidUntil=paymentTime(m);
+  if(m.paid&&paidUntil!==null&&paidUntil<=Date.now()){
+    m.paid=false;
+    m.paidUntil='';
+  }
+  if(m.paid&&paidUntil===null&&m.date){
+    const paymentDate=Date.parse(m.date);
+    if(!Number.isNaN(paymentDate)){
+      const deadline=paymentDate+TWO_WEEKS_MS;
+      if(Date.now()>deadline){
+        m.paid=false;
+      }else{
+        m.paidUntil=new Date(deadline).toISOString();
+      }
+    }
+  }
+  if(!m.paid){
+    m.paidUntil='';
+  }
+}
+members.forEach(m=>{if(st[m.id])upAdd(m,st[m.id]);normalizePaymentState(m)});
+const save=()=>{try{localStorage.setItem('cks-fees',JSON.stringify(Object.fromEntries(members.map(m=>[m.id,{paid:m.paid,pen:m.pen,date:m.date,paidUntil:m.paidUntil||''}]))))}catch(e){}};
 const photos={};
 const photoStatus=document.getElementById('photoStatus');
 const PHOTO_DB='cks-member-photos';
@@ -99,6 +124,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.classList.c
 let filter='all',admin=false;
 const fmt=d=>d?new Date(d).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'—';
 function drawRows(){
+  members.forEach(normalizePaymentState);
   const list=members.filter(m=>m.name!=='[TBD]'&&(filter==='all'||(filter==='paid'&&m.paid)||(filter==='unpaid'&&!m.paid)||(filter==='pen'&&m.pen>0)));
   document.getElementById('rows').innerHTML=list.length?list.map(m=>`<tr><td><b>${m.name}</b></td><td>${m.role}</td><td>${admin?`<button class="chip" data-t="${m.id}">${m.paid?'Mark unpaid':'Mark paid'}</button>`:m.paid?'<span class="paid">Paid</span>':'<span class="unpaid">Unpaid</span>'}</td><td><span class="tick${m.paid?' on':''}" aria-label="${m.paid?'Paid':'Not paid'}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span></td><td>${admin?`৳<input type="number" min="0" step="10" value="${m.pen}" data-p="${m.id}" aria-label="Penalty for ${m.name}">`:`<span class="${m.pen?'pen':''}">৳${m.pen}</span>`}</td><td>${fmt(m.date)}</td></tr>`).join(''):'<tr><td colspan="6" class="empty">No members match this filter. Try “All”.</td></tr>';
   const real=members.filter(m=>m.name!=='[TBD]');
@@ -106,7 +132,7 @@ function drawRows(){
 }
 document.querySelectorAll('[data-f]').forEach(b=>b.onclick=()=>{filter=b.dataset.f;document.querySelectorAll('[data-f]').forEach(x=>x.setAttribute('aria-pressed',x===b));drawRows()});
 
-rows.addEventListener('click',e=>{const t=e.target.closest('[data-t]');if(!t)return;const m=members[t.dataset.t];m.paid=!m.paid;m.date=m.paid?new Date().toISOString().slice(0,10):'';save();drawRows()});
+rows.addEventListener('click',e=>{const t=e.target.closest('[data-t]');if(!t)return;const m=members[t.dataset.t];m.paid=!m.paid;const now=new Date();m.date=m.paid?now.toISOString().slice(0,10):'';m.paidUntil=m.paid?new Date(now.getTime()+TWO_WEEKS_MS).toISOString():'';save();drawRows()});
 rows.addEventListener('change',e=>{const p=e.target.dataset.p;if(p===undefined)return;members[p].pen=Math.max(0,+e.target.value||0);save();drawRows()});
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
@@ -119,4 +145,13 @@ $('fJoin').onsubmit=e=>{e.preventDefault();pending.push(Object.fromEntries(new F
 $('bJoin').onclick=()=>{$('jmsg').textContent='';$('dJoin').showModal()};
 $('bRules').onclick=()=>$('dRules').showModal();
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>b.closest('dialog').close());
+setInterval(()=>{
+  let changed=false;
+  members.forEach(m=>{
+    const before=m.paid;
+    normalizePaymentState(m);
+    if(before!==m.paid)changed=true;
+  });
+  if(changed){save();drawRows();}
+},60000);
 drawCards();loadPhotos();drawRows();
