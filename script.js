@@ -5,7 +5,7 @@ const svg=(k,s=18)=>`<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="n
 const ini=n=>n.replace(/[\[\]]/g,'').replace(/^(Mo:|Mu\.)\s*/,'').split(' ').map(w=>w[0]).slice(0,2).join('');
 const memberImages={
   'Mo: Arefin Ahmmed Arnob':'arnob.jpg',
-  'MD. Mahim Ahmed':'main.jpeg',
+  'MD. Mahim Ahmed':'mahim.jpg',
   'Prottoy Mandal':'mandal.jpg',
   'Shahrear Hasnat Abir':'abir.jpg',
   'Mridul Kumar Sikder':'mridul.jpg',
