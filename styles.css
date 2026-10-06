@@ -51,6 +51,7 @@ td input{width:76px;background:var(--bg);color:var(--tx);border:1px solid var(--
 .tick.on{background:var(--ok);border-color:var(--ok);color:#06210f}
 .empty{padding:22px;text-align:center;color:var(--mut)}
 footer{text-align:center;color:var(--mut);font-size:13px;padding:26px 0 40px}
+footer .footer-link{display:inline-block;margin-top:8px;text-decoration:none}
 @media(max-width:520px){.admin{margin-left:0;width:100%}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.card{padding:14px 8px}.av{width:min(34vw,140px);height:min(34vw,140px)}}
 nav button{color:var(--tx);font:700 16px Nunito;padding:8px 16px;border-radius:99px;background:var(--panel);border:0;cursor:pointer}
 nav button:hover,nav button:focus-visible{outline:2px solid var(--hi)}
